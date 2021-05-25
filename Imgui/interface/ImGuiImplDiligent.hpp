@@ -32,7 +32,6 @@
 
 namespace Diligent
 {
-
 struct IRenderDevice;
 struct IDeviceContext;
 enum TEXTURE_FORMAT : Uint16;
@@ -43,47 +42,46 @@ class ImGuiDiligentRenderer;
 class ImGuiImplDiligent
 {
 public:
-    static constexpr Uint32 DefaultInitialVBSize = 1024;
-    static constexpr Uint32 DefaultInitialIBSize = 2048;
+        static constexpr Uint32 DefaultInitialVBSize = 1024;
+        static constexpr Uint32 DefaultInitialIBSize = 2048;
 
-    ImGuiImplDiligent(IRenderDevice* pDevice,
-                      TEXTURE_FORMAT BackBufferFmt,
-                      TEXTURE_FORMAT DepthBufferFmt,
-                      Uint32         InitialVertexBufferSize = DefaultInitialVBSize,
-                      Uint32         InitialIndexBufferSize  = DefaultInitialIBSize);
-    virtual ~ImGuiImplDiligent();
+        ImGuiImplDiligent(IRenderDevice* pDevice,
+                          TEXTURE_FORMAT BackBufferFmt,
+                          TEXTURE_FORMAT DepthBufferFmt,
+                          Uint32 InitialVertexBufferSize = DefaultInitialVBSize,
+                          Uint32 InitialIndexBufferSize = DefaultInitialIBSize);
+        virtual ~ImGuiImplDiligent();
 
-    // clang-format off
-    ImGuiImplDiligent             (const ImGuiImplDiligent&)  = delete;
-    ImGuiImplDiligent             (      ImGuiImplDiligent&&) = delete;
-    ImGuiImplDiligent& operator = (const ImGuiImplDiligent&)  = delete;
-    ImGuiImplDiligent& operator = (      ImGuiImplDiligent&&) = delete;
-    // clang-format on
+        // clang-format off
+        ImGuiImplDiligent             (const ImGuiImplDiligent&)  = delete;
+        ImGuiImplDiligent             (ImGuiImplDiligent&&) = delete;
+        ImGuiImplDiligent& operator =(const ImGuiImplDiligent&)  = delete;
+        ImGuiImplDiligent& operator =(ImGuiImplDiligent&&) = delete;
+        // clang-format on
 
 
-    /// Begins new frame
+        /// Begins new frame
 
-    /// \param [in] RenderSurfaceWidth  - Render surface width not accounting for pre-transform.
-    ///                                   Most of the time this is the actual swap chain width.
-    /// \param [in] RenderSurfaceHeight - Render surface height not accounting for pre-transform.
-    ///                                   Most of the time this is the actual swap chain height.
-    /// \param [in] SurfacePreTransform - Render surface pre-transform.
-    ///                                   Most of the time this is the swap chain pre-transform.
-    virtual void NewFrame(Uint32            RenderSurfaceWidth,
-                          Uint32            RenderSurfaceHeight,
-                          SURFACE_TRANSFORM SurfacePreTransform);
+        /// \param [in] RenderSurfaceWidth  - Render surface width not accounting for pre-transform.
+        ///                                   Most of the time this is the actual swap chain width.
+        /// \param [in] RenderSurfaceHeight - Render surface height not accounting for pre-transform.
+        ///                                   Most of the time this is the actual swap chain height.
+        /// \param [in] SurfacePreTransform - Render surface pre-transform.
+        ///                                   Most of the time this is the swap chain pre-transform.
+        virtual void NewFrame(Uint32 RenderSurfaceWidth,
+                              Uint32 RenderSurfaceHeight,
+                              SURFACE_TRANSFORM SurfacePreTransform);
 
-    virtual void EndFrame();
-    virtual void Render(IDeviceContext* pCtx);
+        virtual void EndFrame();
+        virtual void Render(IDeviceContext* pCtx);
 
-    // Use if you want to reset your rendering device without losing ImGui state.
-    void InvalidateDeviceObjects();
-    void CreateDeviceObjects();
+        // Use if you want to reset your rendering device without losing ImGui state.
+        void InvalidateDeviceObjects();
+        void CreateDeviceObjects();
 
-    void UpdateFontsTexture();
+        void UpdateFontsTexture();
 
 private:
-    std::unique_ptr<ImGuiDiligentRenderer> m_pRenderer;
+        std::unique_ptr<ImGuiDiligentRenderer> m_pRenderer;
 };
-
 } // namespace Diligent

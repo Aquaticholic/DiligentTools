@@ -37,56 +37,62 @@
 
 namespace Diligent
 {
-
 ImGuiImplDiligent::ImGuiImplDiligent(IRenderDevice* pDevice,
                                      TEXTURE_FORMAT BackBufferFmt,
                                      TEXTURE_FORMAT DepthBufferFmt,
-                                     Uint32         InitialVertexBufferSize,
-                                     Uint32         InitialIndexBufferSize)
+                                     Uint32 InitialVertexBufferSize,
+                                     Uint32 InitialIndexBufferSize)
 {
-    ImGui::CreateContext();
-    ImGuiIO& io    = ImGui::GetIO();
-    io.IniFilename = nullptr;
-    m_pRenderer.reset(new ImGuiDiligentRenderer(pDevice, BackBufferFmt, DepthBufferFmt, InitialVertexBufferSize, InitialIndexBufferSize));
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.IniFilename = nullptr;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        m_pRenderer.reset(new ImGuiDiligentRenderer(pDevice, BackBufferFmt, DepthBufferFmt, InitialVertexBufferSize, InitialIndexBufferSize));
 }
 
 ImGuiImplDiligent::~ImGuiImplDiligent()
 {
-    ImGui::DestroyContext();
+        ImGui::DestroyContext();
 }
 
 void ImGuiImplDiligent::NewFrame(Uint32 RenderSurfaceWidth, Uint32 RenderSurfaceHeight, SURFACE_TRANSFORM SurfacePreTransform)
 {
-    m_pRenderer->NewFrame(RenderSurfaceWidth, RenderSurfaceHeight, SurfacePreTransform);
-    ImGui::NewFrame();
+        m_pRenderer->NewFrame(RenderSurfaceWidth, RenderSurfaceHeight, SurfacePreTransform);
+        ImGui::NewFrame();
 }
 
 void ImGuiImplDiligent::EndFrame()
 {
-    ImGui::EndFrame();
+        ImGui::EndFrame();
 }
 
 void ImGuiImplDiligent::Render(IDeviceContext* pCtx)
 {
-    // No need to call ImGui::EndFrame as ImGui::Render calls it automatically
-    ImGui::Render();
-    m_pRenderer->RenderDrawData(pCtx, ImGui::GetDrawData());
+        // No need to call ImGui::EndFrame as ImGui::Render calls it automatically
+        ImGui::Render();
+        m_pRenderer->RenderDrawData(pCtx, ImGui::GetDrawData());
+        auto& io = ImGui::GetIO();
+        // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        // {
+        //         ImGui::UpdatePlatformWindows();
+        //         ImGui::RenderPlatformWindowsDefault();
+        // }
 }
 
 // Use if you want to reset your rendering device without losing ImGui state.
 void ImGuiImplDiligent::InvalidateDeviceObjects()
 {
-    m_pRenderer->InvalidateDeviceObjects();
+        m_pRenderer->InvalidateDeviceObjects();
 }
 
 void ImGuiImplDiligent::CreateDeviceObjects()
 {
-    m_pRenderer->CreateDeviceObjects();
+        m_pRenderer->CreateDeviceObjects();
 }
 
 void ImGuiImplDiligent::UpdateFontsTexture()
 {
-    m_pRenderer->CreateFontsTexture();
+        m_pRenderer->CreateFontsTexture();
 }
-
 } // namespace Diligent
