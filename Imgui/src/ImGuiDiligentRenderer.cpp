@@ -320,7 +320,7 @@ void ImGuiDiligentRenderer::CreateDeviceObjects()
         ShaderCI.UseCombinedTextureSamplers = true;
         ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_DEFAULT;
 
-        const auto DeviceType = m_pDevice->GetDeviceCaps().DevType;
+        const auto DeviceType = m_pDevice->GetDeviceInfo().Type;
 
         RefCntAutoPtr<IShader> pVS;
         {
