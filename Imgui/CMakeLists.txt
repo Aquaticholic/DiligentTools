@@ -28,6 +28,7 @@ set(DEAR_IMGUI_SOURCE
     ${DEAR_IMGUI_PATH}/imgui_draw.cpp
     ${DEAR_IMGUI_PATH}/imgui_tables.cpp
     ${DEAR_IMGUI_PATH}/imgui_widgets.cpp
+    ${DEAR_IMGUI_PATH}/imgui_demo.cpp
     ${DEAR_IMGUI_PATH}/misc/cpp/imgui_stdlib.cpp
 )
 
